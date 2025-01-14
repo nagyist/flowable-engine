@@ -446,7 +446,8 @@ public class ProcessEngineAutoConfigurationTest {
                         assertThat(dbIdGenerator.getIdBlockSize()).isEqualTo(engineConfiguration.getIdBlockSize());
                         assertThat(dbIdGenerator.getCommandExecutor()).isEqualTo(engineConfiguration.getCommandExecutor());
                         assertThat(dbIdGenerator.getCommandConfig())
-                            .isEqualToComparingFieldByField(engineConfiguration.getDefaultCommandConfig().transactionRequiresNew());
+                            .usingRecursiveComparison()
+                            .isEqualTo(engineConfiguration.getDefaultCommandConfig().transactionRequiresNew());
                     });
             });
     }
@@ -467,7 +468,8 @@ public class ProcessEngineAutoConfigurationTest {
                         assertThat(dbIdGenerator.getIdBlockSize()).isEqualTo(engineConfiguration.getIdBlockSize());
                         assertThat(dbIdGenerator.getCommandExecutor()).isEqualTo(engineConfiguration.getCommandExecutor());
                         assertThat(dbIdGenerator.getCommandConfig())
-                            .isEqualToComparingFieldByField(engineConfiguration.getDefaultCommandConfig().transactionRequiresNew());
+                            .usingRecursiveComparison()
+                            .isEqualTo(engineConfiguration.getDefaultCommandConfig().transactionRequiresNew());
                     })
                     .isEqualTo(context.getBean(IdGenerator.class));
             });
@@ -606,6 +608,7 @@ public class ProcessEngineAutoConfigurationTest {
                                 assertThat(taskExecutor.getMaxPoolSize()).isEqualTo(8);
                                 assertThat(taskExecutor.getQueueSize()).isEqualTo(100);
                                 assertThat(taskExecutor.getThreadPoolNamingPattern()).isEqualTo("flowable-async-task-invoker-%d");
+                                assertThat(taskExecutor.submit(() -> true).join()).isTrue();
                             });
                 });
     }

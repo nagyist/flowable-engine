@@ -69,6 +69,8 @@ public class DefaultCmmnEngineAgenda extends AbstractAgenda implements CmmnEngin
     }
 
     public void addOperation(CmmnOperation operation) {
+
+        operation.onPlanned();
         
         int operationIndex = getOperationIndex(operation);
         if (operationIndex >= 0) {
@@ -142,6 +144,14 @@ public class DefaultCmmnEngineAgenda extends AbstractAgenda implements CmmnEngin
     @Override
     public void planEvaluateCriteriaOperation(String caseInstanceEntityId, PlanItemLifeCycleEvent lifeCycleEvent) {
         internalPlanEvaluateCriteria(caseInstanceEntityId, lifeCycleEvent, false);
+    }
+    
+    @Override
+    public void planEvaluateCriteriaOperation(String caseInstanceEntityId, MigrationContext migrationContext) {
+        EvaluateCriteriaOperation evaluateCriteriaOperation = new EvaluateCriteriaOperation(commandContext, caseInstanceEntityId, null);
+        evaluateCriteriaOperation.setEvaluateStagesAndCaseInstanceCompletion(false);
+        evaluateCriteriaOperation.setMigrationContext(migrationContext);
+        addOperation(evaluateCriteriaOperation);
     }
     
     protected void internalPlanEvaluateCriteria(String caseInstanceEntityId, PlanItemLifeCycleEvent planItemLifeCycleEvent, boolean evaluateCaseInstanceCompleted) {

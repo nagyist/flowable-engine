@@ -303,6 +303,7 @@
                             <!--<skipPublishing>true</skipPublishing>-->
                             <excludeArtifacts>
                                 <excludeArtifact>flowable-distribution</excludeArtifact>
+                                <excludeArtifact>flowable-build-tools</excludeArtifact>
                             </excludeArtifacts>
                         </configuration>
                     </plugin>
